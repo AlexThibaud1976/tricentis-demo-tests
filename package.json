@@ -1,0 +1,30 @@
+{
+  "name": "tricentis-demo-tests",
+  "version": "1.0.0",
+  "description": "Suite de tests automatisés Playwright pour Demo Web Shop Tricentis",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "test:report": "npx playwright show-report",
+    "test:creation": "npx playwright test tests/01-account-creation.spec.js",
+    "test:login": "npx playwright test tests/02-login.spec.js",
+    "test:catalog": "npx playwright test tests/03-catalog.spec.js",
+    "test:cart": "npx playwright test tests/04-cart.spec.js",
+    "test:order": "npx playwright test tests/05-order.spec.js"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "e2e",
+    "automation"
+  ],
+  "author": "Alexandre",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.0"
+  }
+}
