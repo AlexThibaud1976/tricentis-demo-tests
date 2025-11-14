@@ -39,14 +39,12 @@ module.exports = defineConfig({
             'browser_version': 'latest',
             'os': 'Windows',
             'os_version': '11',
-            'name': 'Tricentis Demo Tests',
-            'build': `Build ${process.env.GITHUB_RUN_NUMBER || new Date().toISOString().split('T')[0]}`,
-            'project': 'tricentis-demo-tests',
+            'build': 'TRICENTIS-DEMO-TESTS',
+            'project': 'TRICENTIS-DEMO-TESTS',
             'browserstack.username': process.env.BROWSERSTACK_USERNAME,
             'browserstack.accessKey': process.env.BROWSERSTACK_ACCESS_KEY,
             'browserstack.console': 'info',
             'browserstack.networkLogs': 'true',
-            // Configuration du SDK pour la gestion automatique des statuts
             'client.playwrightVersion': clientPlaywrightVersion,
           }))}`,
         },
@@ -54,7 +52,7 @@ module.exports = defineConfig({
     },
   ],
 
-  // Forcer l'exécution séquentielle
-  workers: 1,
-  fullyParallel: false,
+  // Exécution parallèle avec 5 workers maximum
+  workers: 5,
+  fullyParallel: true,
 });

@@ -19,10 +19,13 @@ Ajoutez les deux secrets suivants :
 
 Les tests BrowserStack se lancent automatiquement en parallèle des tests locaux à chaque push/PR.
 
-Le job `test-browserstack` exécutera tous les tests en séquentiel (workers=1) sur :
+Le job `test-browserstack` exécutera tous les tests avec :
+- **Parallélisation** : 5 tests en simultané maximum
 - **Navigateur** : Chrome (dernière version)
 - **OS** : Windows 11
 - **Mode** : Headless
+- **Build name** : TRICENTIS-DEMO-TESTS
+- **Identification** : Chaque test a son nom complet
 
 ## Tester localement avec BrowserStack
 
@@ -43,6 +46,7 @@ export BROWSERSTACK_ACCESS_KEY="votre_access_key"
 ### 2. Lancer les tests
 
 ```bash
+# Lancer tous les tests (5 en parallèle)
 npx playwright test --config=playwright.config.browserstack.js
 ```
 
@@ -55,7 +59,9 @@ npx playwright test tests/01-account-creation.spec.js --config=playwright.config
 ## Visualiser les résultats
 
 1. Connectez-vous à [BrowserStack Automate](https://automate.browserstack.com/)
-2. Vous verrez vos tests avec :
+2. Cherchez le build **"TRICENTIS-DEMO-TESTS"**
+3. Vous verrez vos tests avec :
+   - **Nom spécifique** de chaque test (ex: "Test 1: Création de compte utilisateur - Cas passant ✅")
    - **Statut de réussite/échec** : Automatiquement mis à jour pour chaque test
    - Vidéos des exécutions
    - Logs de la console

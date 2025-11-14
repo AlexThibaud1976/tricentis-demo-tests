@@ -13,9 +13,9 @@
   ],
   "run_settings": {
     "cypress_config_file": "playwright.config.browserstack.js",
-    "project_name": "tricentis-demo-tests",
-    "build_name": "Build ${BUILD_NUMBER}",
-    "parallels": 1,
+    "project_name": "TRICENTIS-DEMO-TESTS",
+    "build_name": "TRICENTIS-DEMO-TESTS",
+    "parallels": 5,
     "npm_dependencies": {
       "@playwright/test": "^1.56.0"
     }

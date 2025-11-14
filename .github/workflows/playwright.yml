@@ -68,7 +68,7 @@ jobs:
       run: npx playwright install
       
     - name: Run tests on BrowserStack
-      run: npx playwright test --config=playwright.config.browserstack.js --workers=1 --reporter=list,html
+      run: npx playwright test --config=playwright.config.browserstack.js --workers=5 --reporter=list,html
       env:
         BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
         BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
