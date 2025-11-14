@@ -47,3 +47,37 @@ jobs:
         name: test-failures
         path: test-results/
         retention-days: 7
+
+  test-browserstack:
+    timeout-minutes: 90
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright
+      run: npx playwright install
+      
+    - name: Run tests on BrowserStack
+      run: npx playwright test --config=playwright.config.browserstack.js --workers=1 --reporter=list,html
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        CI: true
+      
+    - name: Upload BrowserStack test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: browserstack-report
+        path: playwright-report/
+        retention-days: 30
