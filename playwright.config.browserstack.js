@@ -8,7 +8,7 @@ const clientPlaywrightVersion = cp
   .split(' ')[1];
 
 /**
- * Configuration Playwright pour BrowserStack avec SDK officiel
+ * Configuration Playwright pour BrowserStack
  * Documentation: https://www.browserstack.com/docs/automate/playwright
  */
 module.exports = defineConfig({
@@ -20,10 +20,11 @@ module.exports = defineConfig({
     headless: true,
   },
 
-  // Reporter pour mettre à jour les statuts BrowserStack
+  // Reporter personnalisé pour BrowserStack + reporters standards
   reporter: [
     ['list'],
     ['html'],
+    ['./browserstack-reporter.js'],
   ],
 
   // Configuration BrowserStack
@@ -32,7 +33,7 @@ module.exports = defineConfig({
       name: 'browserstack-chrome',
       use: {
         ...devices['Desktop Chrome'],
-        // Capabilities BrowserStack avec SDK
+        // Capabilities BrowserStack
         connectOptions: {
           wsEndpoint: `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(JSON.stringify({
             'browser': 'chrome',
@@ -41,10 +42,12 @@ module.exports = defineConfig({
             'os_version': '11',
             'build': 'TRICENTIS-DEMO-TESTS',
             'project': 'TRICENTIS-DEMO-TESTS',
+            'name': 'Test', // Sera mis à jour par le reporter
             'browserstack.username': process.env.BROWSERSTACK_USERNAME,
             'browserstack.accessKey': process.env.BROWSERSTACK_ACCESS_KEY,
             'browserstack.console': 'info',
             'browserstack.networkLogs': 'true',
+            'browserstack.playwrightVersion': clientPlaywrightVersion,
             'client.playwrightVersion': clientPlaywrightVersion,
           }))}`,
         },

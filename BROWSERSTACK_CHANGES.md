@@ -11,13 +11,20 @@ Le build BrowserStack s'appelle maintenant **TRICENTIS-DEMO-TESTS** (fixe, pas d
 
 ### 2. **Identification des Tests par Leur Nom Complet**
 Chaque test est maintenant identifié par son nom complet dans BrowserStack :
-- ✅ "Test 1: Création de compte utilisateur - Cas passant ✅"
-- ✅ "Test 3: Connexion utilisateur - Cas passant ✅"
-- ✅ "Test 6: Parcours du catalogue et visualisation de produit - Cas passant ✅"
+- ✅ "Tests de création de compte › Test 1: Création de compte utilisateur - Cas passant ✅"
+- ✅ "Tests de connexion et déconnexion › Test 3: Connexion utilisateur - Cas passant ✅"
+- ✅ "Tests de parcours du catalogue › Test 6: Parcours du catalogue et visualisation de produit - Cas passant ✅"
 - etc.
 
 **Fonctionnement :**
-Le SDK BrowserStack utilise automatiquement le titre complet de chaque test Playwright (nom du describe + nom du test).
+Un reporter personnalisé (`browserstack-reporter.js`) met à jour automatiquement chaque session BrowserStack via l'API REST après l'exécution de chaque test. Le reporter :
+1. Récupère les sessions actives de BrowserStack
+2. Fait correspondre chaque test à sa session (par timing)
+3. Met à jour le nom et le statut via l'API REST
+
+**Fichiers impliqués :**
+- `browserstack-reporter.js` : Reporter personnalisé Playwright
+- `browserstack-utils.js` : Fonctions utilitaires pour l'API BrowserStack
 
 ### 3. **Exécution en Parallèle : 5 Tests Maximum**
 Les tests s'exécutent maintenant en parallèle avec un maximum de 5 tests simultanés.
