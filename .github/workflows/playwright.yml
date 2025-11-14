@@ -27,8 +27,8 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
       
-    - name: Run Playwright tests
-      run: npx playwright test --reporter=list,html
+    - name: Run Playwright tests (headed mode with Xvfb)
+      run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npx playwright test --headed --reporter=list,html
       env:
         CI: true
       
