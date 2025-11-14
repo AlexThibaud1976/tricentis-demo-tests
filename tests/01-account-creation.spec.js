@@ -2,6 +2,14 @@ const { test, expect } = require('@playwright/test');
 const { generateUserData } = require('../utils/helpers');
 
 test.describe('Tests de création de compte', () => {
+  test.afterEach(async ({ page }) => {
+    // Fermer le context (ferme la fenêtre du navigateur pour ce test)
+    try {
+      await page.context().close();
+    } catch (e) {
+      // ignore
+    }
+  });
   
   test('Test 1: Création de compte utilisateur - Cas passant ✅', async ({ page }) => {
     // Générer des données utilisateur uniques

@@ -4,6 +4,12 @@ const { generateUserData, login, logout } = require('../utils/helpers');
 test.describe('Tests de connexion et déconnexion', () => {
   let testUser;
 
+  test.afterEach(async ({ page }) => {
+    try {
+      await page.context().close();
+    } catch (e) {}
+  });
+
   test('Test 3: Connexion utilisateur - Cas passant ✅', async ({ page }) => {
     // Créer un compte (comme dans Test 1 de 01-account-creation.spec.js)
     testUser = generateUserData();
