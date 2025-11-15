@@ -1,0 +1,549 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\alexa\\OneDrive\\Documents\\VSCode\\tricentis-demo-tests\\playwright.config.browserstack.js",
+    "rootDir": "C:/Users/alexa/OneDrive/Documents/VSCode/tricentis-demo-tests/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "C:\\Users\\alexa\\OneDrive\\Documents\\VSCode\\tricentis-demo-tests\\browserstack-reporter.js",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/alexa/OneDrive/Documents/VSCode/tricentis-demo-tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "browserstack-chrome",
+        "name": "browserstack-chrome",
+        "testDir": "C:/Users/alexa/OneDrive/Documents/VSCode/tricentis-demo-tests/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 5,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "01-account-creation.spec.js",
+      "file": "01-account-creation.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tests de création de compte",
+          "file": "01-account-creation.spec.js",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Test 1: Création de compte utilisateur - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c1f22c58c4ae500731c1-62616dc8c489efdcd382",
+              "file": "01-account-creation.spec.js",
+              "line": 14,
+              "column": 3
+            },
+            {
+              "title": "Test 2: Création de compte - Cas non passant (email invalide) ❌",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c1f22c58c4ae500731c1-ed19a6f406e7a807c357",
+              "file": "01-account-creation.spec.js",
+              "line": 53,
+              "column": 3
+            },
+            {
+              "title": "Test 2 bis: Création de compte - Cas non passant (mots de passe différents) ❌",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c1f22c58c4ae500731c1-fba915075b2739068974",
+              "file": "01-account-creation.spec.js",
+              "line": 78,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02-login-logout.spec.js",
+      "file": "02-login-logout.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tests de connexion et déconnexion",
+          "file": "02-login-logout.spec.js",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Test 3: Connexion utilisateur - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "91bded27fd2fcd69208f-cfa479bfbf7383059e05",
+              "file": "02-login-logout.spec.js",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "Test 4: Connexion utilisateur - Cas non passant (mot de passe incorrect) ❌",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "91bded27fd2fcd69208f-ce973122d0f645eba7a6",
+              "file": "02-login-logout.spec.js",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "Test 4 bis: Connexion - Cas non passant (email inexistant) ❌",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "91bded27fd2fcd69208f-dbe01c2cf39864e8933e",
+              "file": "02-login-logout.spec.js",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "Test 5: Déconnexion utilisateur - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "91bded27fd2fcd69208f-58bb333e7a87d26d61d6",
+              "file": "02-login-logout.spec.js",
+              "line": 109,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "03-catalog-navigation.spec.js",
+      "file": "03-catalog-navigation.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tests de parcours du catalogue",
+          "file": "03-catalog-navigation.spec.js",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Test 6: Parcours du catalogue et visualisation de produit - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dbcaf432440ca65ce745-9e517a947d728a891e47",
+              "file": "03-catalog-navigation.spec.js",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "Test 6 bis: Navigation entre plusieurs catégories - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dbcaf432440ca65ce745-304240d4fdcd6a90e957",
+              "file": "03-catalog-navigation.spec.js",
+              "line": 52,
+              "column": 3
+            },
+            {
+              "title": "Test 6 ter: Recherche de produits - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dbcaf432440ca65ce745-b4b52a8c514f65b827ea",
+              "file": "03-catalog-navigation.spec.js",
+              "line": 107,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "04-cart-management.spec.js",
+      "file": "04-cart-management.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tests de gestion du panier",
+          "file": "04-cart-management.spec.js",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Test 7: Ajout d'un produit au panier - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "939d1966a546f5a52b56-5d95c40aee9785643b8b",
+              "file": "04-cart-management.spec.js",
+              "line": 15,
+              "column": 3
+            },
+            {
+              "title": "Test 8: Ajout de plusieurs produits au panier - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "939d1966a546f5a52b56-8b1fb85f4eb73dff89b0",
+              "file": "04-cart-management.spec.js",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "Test 9: Modification de la quantité dans le panier - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "939d1966a546f5a52b56-4fc416c6da42aa606d25",
+              "file": "04-cart-management.spec.js",
+              "line": 94,
+              "column": 3
+            },
+            {
+              "title": "Test 9 bis: Suppression d'un produit du panier - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "939d1966a546f5a52b56-076e10be135350654ce4",
+              "file": "04-cart-management.spec.js",
+              "line": 132,
+              "column": 3
+            },
+            {
+              "title": "Test 9 ter: Vider complètement le panier - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "939d1966a546f5a52b56-6c451704858c8f701e0b",
+              "file": "04-cart-management.spec.js",
+              "line": 161,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "05-order-checkout.spec.js",
+      "file": "05-order-checkout.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tests de passage de commande",
+          "file": "05-order-checkout.spec.js",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Test 10: Passage de commande complet - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6df3b02bf877ae574b17-7a33d7cdda01cf9c55d1",
+              "file": "05-order-checkout.spec.js",
+              "line": 26,
+              "column": 3
+            },
+            {
+              "title": "Test 10 bis: Tentative de checkout sans accepter les conditions - Cas non passant ❌",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6df3b02bf877ae574b17-16d2a578ddd5adf462be",
+              "file": "05-order-checkout.spec.js",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "Test 10 ter: Commande avec plusieurs produits - Cas passant ✅",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "browserstack-chrome",
+                  "projectName": "browserstack-chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6df3b02bf877ae574b17-7bec1c94949724468386",
+              "file": "05-order-checkout.spec.js",
+              "line": 144,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "99-sanity.spec.js",
+      "file": "99-sanity.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "sanity test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "browserstack-chrome",
+              "projectName": "browserstack-chrome",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "945914a90f8c755c99e7-a6210a979ddfceb83422",
+          "file": "99-sanity.spec.js",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-11-15T14:03:02.697Z",
+    "duration": 32.54600000000005,
+    "expected": 0,
+    "skipped": 19,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
