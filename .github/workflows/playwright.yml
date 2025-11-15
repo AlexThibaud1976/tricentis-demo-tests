@@ -121,7 +121,7 @@ jobs:
         BROWSERSTACK_BUILD_NAME: "GitHub Actions #${{ github.run_number }} - ${{ github.ref_name }} - firefox"
         BS_OS: "Windows"
         BS_OS_VERSION: "10"
-        BS_BROWSER: "firefox"
+        BS_BROWSER: "playwright-firefox"
         BS_BROWSER_VERSION: "latest"
         BS_WORKERS: "5"
         CI: true
@@ -137,7 +137,7 @@ jobs:
           test-results.json
         retention-days: 30
 
-  # 📱 BrowserStack - iPhone 15 Pro Max / iOS 18 (Safari)
+  # 📱 BrowserStack - iPhone 15 Pro Max / iOS 17 (Safari)
   test-browserstack-iphone15:
     timeout-minutes: 90
     runs-on: ubuntu-latest
@@ -164,8 +164,8 @@ jobs:
         BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         BROWSERSTACK_BUILD_NAME: "GitHub Actions #${{ github.run_number }} - ${{ github.ref_name }} - iphone15"
         BS_DEVICE: "iPhone 15 Pro Max"
-        BS_OS_VERSION: "18"
-        BS_BROWSER: "safari"
+        BS_OS_VERSION: "17"
+        BS_BROWSER: "chromium"
         BS_WORKERS: "3"
         CI: true
       continue-on-error: true
