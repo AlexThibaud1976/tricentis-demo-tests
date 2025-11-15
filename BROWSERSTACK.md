@@ -115,12 +115,15 @@ npx playwright test --config=playwright.config.browserstack.js --headed
 ### Dashboard BrowserStack
 1. Connectez-vous à [BrowserStack Automate](https://automate.browserstack.com/)
 2. Trouvez votre build (nom auto-généré ou personnalisé)
-3. Chaque test apparaît individuellement avec:
-   - ✅ Statut (passed/failed)
-   - 📹 Vidéo de l'exécution
-   - 📝 Logs de console
-   - 🌐 Logs réseau
-   - 📸 Screenshots
+3. **Vous verrez 19 sessions distinctes**, une pour chaque test, avec:
+   - ✅ Nom complet du test (ex: "Tests de connexion › Test 3: Connexion utilisateur")
+   - ✅ Statut individuel (passed/failed)
+   - 📹 Vidéo dédiée de l'exécution du test
+   - 📝 Logs de console spécifiques au test
+   - 🌐 Logs réseau du test
+   - 📸 Screenshots du test
+
+**Important**: Chaque test crée sa propre session BrowserStack, vous aurez donc 19 sessions par exécution complète, toutes regroupées dans le même build.
 
 ### Rapport local
 Un rapport HTML est également généré localement:
@@ -135,18 +138,29 @@ npx playwright show-report
 ```
 tricentis-demo-tests/
 ├── browserstack.config.js           # Configuration centralisée
-├── browserstack-fixtures.js         # Fixtures auto (nom + statut)
+├── browserstack-fixtures.js         # Crée une session BrowserStack par test
 ├── browserstack-reporter.js         # Reporter personnalisé
-└── playwright.config.browserstack.js # Config Playwright BrowserStack
+├── playwright.config.browserstack.js # Config Playwright BrowserStack
+└── test-fixtures.js                 # Switch auto local/BrowserStack
 ```
 
 ### Fonctionnement
 
 1. **Configuration**: `browserstack.config.js` centralise tous les paramètres
-2. **Fixtures**: `browserstack-fixtures.js` intercepte chaque test automatiquement
-3. **Naming**: Le nom complet du test est envoyé à BrowserStack avant l'exécution
-4. **Status**: Le statut (passed/failed) est mis à jour après chaque test
-5. **Build**: Tous les tests d'une même exécution sont groupés sous un build unique
+2. **Session par test**: `browserstack-fixtures.js` crée une connexion CDP BrowserStack dédiée pour chaque test
+3. **Naming**: Le nom complet du test (suite › test) est défini lors de la création de la session
+4. **Status**: Le statut (passed/failed) est mis à jour automatiquement après chaque test
+5. **Build unique**: Tous les tests d'une même exécution sont groupés sous un build unique
+6. **Logs séparés**: Chaque test a ses propres logs console, réseau, vidéo dans BrowserStack
+
+### Avantages de cette architecture
+
+- ✅ **19 sessions distinctes** dans BrowserStack (une par test)
+- ✅ **Noms complets** visibles (ex: "Tests de connexion › Test 3: Connexion utilisateur - Cas passant ✅")
+- ✅ **Logs individuels** pour chaque test (console, réseau, vidéo)
+- ✅ **Build unique** regroupant tous les tests
+- ✅ **Aucune modification** des fichiers de tests
+- ✅ **Mode local** fonctionne sans BrowserStack
 
 ## 🎯 Configurations recommandées par navigateur
 
