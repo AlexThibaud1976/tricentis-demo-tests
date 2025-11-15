@@ -7,5 +7,7 @@ test('sanity test', async ({ page }) => {
 });
 
 test.afterEach(async ({ page }) => {
-  try { await page.context().close(); } catch (e) {}
+  if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) {
+    try { await page.context().close(); } catch (e) {}
+  }
 });

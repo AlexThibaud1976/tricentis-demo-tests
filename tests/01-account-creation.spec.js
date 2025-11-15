@@ -3,11 +3,13 @@ const { generateUserData } = require('../utils/helpers');
 
 test.describe('Tests de création de compte', () => {
   test.afterEach(async ({ page }) => {
-    // Fermer le context (ferme la fenêtre du navigateur pour ce test)
-    try {
-      await page.context().close();
-    } catch (e) {
-      // ignore
+    if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) {
+      // Fermer le contexte uniquement en local pour laisser BrowserStack gérer la fermeture
+      try {
+        await page.context().close();
+      } catch (e) {
+        // ignore
+      }
     }
   });
   

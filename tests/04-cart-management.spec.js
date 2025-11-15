@@ -4,7 +4,9 @@ const { wait, clearCart, getCartItemCount, addProductToCart } = require('../util
 test.describe('Tests de gestion du panier', () => {
 
   test.afterEach(async ({ page }) => {
-    try { await page.context().close(); } catch (e) {}
+    if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) {
+      try { await page.context().close(); } catch (e) {}
+    }
   });
 
   test.beforeEach(async ({ page }) => {

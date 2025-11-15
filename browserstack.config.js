@@ -3,11 +3,17 @@
  * Permet de configurer facilement OS, navigateur, versions et parallélisation
  */
 
+const runInOrder = process.env.BS_RUN_IN_ORDER !== 'false';
+const requestedWorkers = parseInt(process.env.BS_WORKERS || '5', 10);
+
 module.exports = {
   // Identifiants BrowserStack (via variables d'environnement)
   username: process.env.BROWSERSTACK_USERNAME,
   accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
 
+  // Exécution séquentielle (par défaut) ou parallèle via BS_RUN_IN_ORDER=false
+  runInOrder,
+  
   // Nom du build (unique par exécution)
   buildName: process.env.BROWSERSTACK_BUILD_NAME || 
     `Tricentis Demo Tests - ${new Date().toISOString().split('T')[0]} ${new Date().getHours()}:${new Date().getMinutes()}`,
@@ -34,8 +40,8 @@ module.exports = {
     'browserstack.selenium_version': '4.0.0',
   },
 
-  // Nombre de tests en parallèle
-  workers: parseInt(process.env.BS_WORKERS || '5', 10),
+  // Nombre de tests en parallèle (forcé à 1 si runInOrder = true)
+  workers: runInOrder ? 1 : requestedWorkers,
 
   // Timeout pour les tests
   timeout: 90000,

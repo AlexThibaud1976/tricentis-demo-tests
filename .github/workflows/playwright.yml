@@ -76,7 +76,7 @@ jobs:
         BS_OS: "Windows"
         BS_OS_VERSION: "10"
         BS_BROWSER: "chrome"
-        BS_BROWSER_VERSION: "135"
+        BS_BROWSER_VERSION: "latest"
         BS_WORKERS: "5"
         CI: true
       continue-on-error: true

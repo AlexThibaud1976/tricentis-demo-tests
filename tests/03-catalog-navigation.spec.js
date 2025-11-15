@@ -3,7 +3,9 @@ const { test, expect } = require('../test-fixtures');
 test.describe('Tests de parcours du catalogue', () => {
 
   test.afterEach(async ({ page }) => {
-    try { await page.context().close(); } catch (e) {}
+    if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) {
+      try { await page.context().close(); } catch (e) {}
+    }
   });
 
   test('Test 6: Parcours du catalogue et visualisation de produit - Cas passant ✅', async ({ page }) => {

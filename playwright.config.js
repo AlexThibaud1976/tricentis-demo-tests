@@ -2,6 +2,7 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
+  testOrder: 'file',
   fullyParallel: false, // Tests séquentiels pour éviter les conflits
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

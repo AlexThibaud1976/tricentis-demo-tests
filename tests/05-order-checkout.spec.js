@@ -5,7 +5,9 @@ test.describe('Tests de passage de commande', () => {
   let testUser;
 
   test.afterEach(async ({ page }) => {
-    try { await page.context().close(); } catch (e) {}
+    if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) {
+      try { await page.context().close(); } catch (e) {}
+    }
   });
 
   test.beforeAll(async ({ browser }) => {

@@ -8,7 +8,8 @@ const bsConfig = require('./browserstack.config');
 
 module.exports = defineConfig({
   testDir: './tests',
-  fullyParallel: true,
+  testOrder: 'file',
+  fullyParallel: !bsConfig.runInOrder,
   forbidOnly: !!process.env.CI,
   retries: bsConfig.retries,
   workers: bsConfig.workers,

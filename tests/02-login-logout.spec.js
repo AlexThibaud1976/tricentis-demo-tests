@@ -5,9 +5,13 @@ test.describe('Tests de connexion et déconnexion', () => {
   let testUser;
 
   test.afterEach(async ({ page }) => {
-    try {
-      await page.context().close();
-    } catch (e) {}
+      if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) {
+        try {
+          await page.context().close();
+        } catch (e) {
+          // ignore
+        }
+      }
   });
 
   test('Test 3: Connexion utilisateur - Cas passant ✅', async ({ page }) => {
