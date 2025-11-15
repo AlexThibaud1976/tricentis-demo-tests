@@ -10,7 +10,7 @@ test.describe('Tests de passage de commande', () => {
     }
   });
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeEach(async ({ browser }) => {
     // Créer un compte pour les tests de commande
     const context = await browser.newContext();
     const page = await context.newPage();
