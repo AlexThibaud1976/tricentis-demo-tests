@@ -40,6 +40,6 @@ module.exports = {
   // Timeout pour les tests
   timeout: 90000,
 
-  // Options de retry
-  retries: process.env.CI ? 2 : 0,
+  // Options de retry (désactivé pour BrowserStack)
+  retries: 0,
 };
