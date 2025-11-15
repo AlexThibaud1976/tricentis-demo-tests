@@ -168,10 +168,9 @@ test.describe('Tests de passage de commande', () => {
     await page.locator('input#termsofservice').check();
     await page.locator('button#checkout').click();
 
-    // Attendre que l'étape de facturation soit visible (plus fiable sur BrowserStack)
-    const billingSection = page.locator('#checkout-step-billing');
-    await billingSection.waitFor({ state: 'visible', timeout: 20000 });
-    await page.locator('select#BillingNewAddress_CountryId').waitFor({ state: 'visible', timeout: 20000 });
+    // Attendre que le formulaire de facturation soit visible (même approche robuste que Test 10)
+    await page.waitForSelector('select#BillingNewAddress_CountryId, #billing-buttons-container', { state: 'visible', timeout: 15000 });
+    console.log('✅ Page de checkout chargée (formulaire de facturation détecté)');
 
     // Processus de checkout (mêmes étapes que Test 10)
     await page.locator('select#BillingNewAddress_CountryId').selectOption({ label: 'France' });
