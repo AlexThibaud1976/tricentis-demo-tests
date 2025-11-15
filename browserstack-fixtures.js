@@ -45,12 +45,12 @@ const test = base.test.extend({
   // Override du contexte pour créer une session BrowserStack par test
   context: async ({}, use, testInfo) => {
     if (!isBrowserStackRun()) {
-      // Mode local: utiliser le contexte par défaut
-      const context = await chromium.launchPersistentContext('', {
-        headless: false,
-      });
+      // Mode local: utiliser le contexte par défaut de Playwright
+      const browser = await chromium.launch({ headless: false });
+      const context = await browser.newContext();
       await use(context);
       await context.close();
+      await browser.close();
       return;
     }
 
@@ -81,25 +81,29 @@ const test = base.test.extend({
     
     let browser;
     let context;
-    let page;
     
     try {
       console.log(`[BrowserStack] Connecting session ${sessionId} for test: ${testInfo.title}`);
       
       // Connexion à BrowserStack via CDP
       browser = await chromium.connectOverCDP(wsEndpoint);
-      context = browser.contexts()[0] || await browser.newContext();
-      page = context.pages()[0] || await context.newPage();
       
-      // Attendre que la page soit prête
-      await page.waitForTimeout(1000);
+      // Récupérer ou créer le contexte
+      const contexts = browser.contexts();
+      context = contexts.length > 0 ? contexts[0] : await browser.newContext();
       
+      // Attendre que le contexte soit prêt
+      await context.pages()[0]?.waitForLoadState('domcontentloaded').catch(() => {});
+      
+      // Utiliser le contexte dans le test
       await use(context);
       
-      // Récupérer le statut du test pour la mise à jour
+      // Après le test: mettre à jour le statut
       console.log(`[BrowserStack] Test ${sessionId} finished with status: ${testInfo.status}`);
       
-      if (page && !page.isClosed()) {
+      const pages = context.pages();
+      if (pages.length > 0 && !pages[0].isClosed()) {
+        const page = pages[0];
         const isExpected = testInfo.status === 'passed' || testInfo.status === testInfo.expectedStatus;
         const status = isExpected ? 'passed' : 'failed';
         const reason = testInfo.error?.message?.slice(0, 250) || 
@@ -113,6 +117,14 @@ const test = base.test.extend({
       }
     } catch (error) {
       console.error(`[BrowserStack] Error in session ${sessionId}:`, error.message);
+      // Toujours appeler use() même en cas d'erreur pour éviter "use() was not called"
+      if (!context) {
+        // Créer un contexte fallback local si la connexion BrowserStack échoue
+        const localBrowser = await chromium.launch({ headless: false });
+        context = await localBrowser.newContext();
+        console.warn(`[BrowserStack] Fallback to local browser due to connection error`);
+      }
+      throw error; // Re-throw pour marquer le test comme failed
     } finally {
       // Nettoyage
       if (context) {
@@ -136,7 +148,8 @@ const test = base.test.extend({
   
   // Override de page pour utiliser le contexte personnalisé
   page: async ({ context }, use) => {
-    const page = context.pages()[0] || await context.newPage();
+    const pages = context.pages();
+    const page = pages.length > 0 ? pages[0] : await context.newPage();
     await use(page);
   },
 });
