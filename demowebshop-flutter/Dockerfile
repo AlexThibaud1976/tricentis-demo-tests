@@ -36,6 +36,13 @@ RUN flutter pub get
 # Copie de tout le code source
 COPY . .
 
+# Copier les fichiers worker SQLite nécessaires pour le web
+# Ces fichiers sont requis par sqflite_common_ffi_web
+RUN cp /root/.pub-cache/hosted/pub.dev/sqflite_common_ffi_web-*/web/sqflite_sw.js web/ 2>/dev/null || \
+    wget -O web/sqflite_sw.js https://github.com/tekartik/sqflite/raw/master/packages_web/sqflite_common_ffi_web/web/sqflite_sw.js && \
+    cp /root/.pub-cache/hosted/pub.dev/sqflite_common_ffi_web-*/web/sqlite3.wasm web/ 2>/dev/null || \
+    wget -O web/sqlite3.wasm https://github.com/tekartik/sqflite/raw/master/packages_web/sqflite_common_ffi_web/web/sqlite3.wasm
+
 # Build de l'application web en mode release
 # Utiliser html renderer pour plus de compatibilité
 RUN flutter build web --release --web-renderer html --verbose
