@@ -1,22 +1,22 @@
 ﻿[![Playwright Tests](https://github.com/AlexThibaud1976/tricentis-demo-tests/actions/workflows/playwright.yml/badge.svg)](https://github.com/AlexThibaud1976/tricentis-demo-tests/actions/workflows/playwright.yml)
 
-#  Suite de Tests Automatisés - Demo Web Shop Tricentis
+# 🧪 Suite de Tests Automatisés - Demo Web Shop Tricentis
 
 Suite complète de tests end-to-end automatisés avec Playwright pour le site de démonstration [Demo Web Shop Tricentis](https://demowebshop.tricentis.com/).
 
-##  Description
+## 📋 Description
 
 Ce projet contient **10 tests automatisés** couvrant les fonctionnalités principales du site e-commerce :
 
--  Création de compte (cas passants et non passants)
--  Authentification (login/logout)
--  Navigation dans le catalogue
--  Gestion du panier
--  Passage de commande complet
+- 🧾 Création de compte (cas passants et non passants)
+- 🔐 Authentification (login/logout)
+- 🧭 Navigation dans le catalogue
+- 🛒 Gestion du panier
+- ✅ Passage de commande complet
 
-##  Installation
+## 🚀 Installation
 
-### Prérequis
+### ⚙️ Prérequis
 
 - Node.js (version 16 ou supérieure)
 - npm ou yarn
@@ -39,7 +39,7 @@ npm install
 npx playwright install
 ```
 
-##  Exécution des tests
+## 🧪 Exécution des tests
 
 ### Tous les tests
 
@@ -84,7 +84,7 @@ npm run test:cart
 npm run test:order
 ```
 
-##  Structure du projet
+## 📁 Structure du projet
 
 ```
 tricentis-demo-tests/
@@ -104,7 +104,7 @@ tricentis-demo-tests/
  README.md                            # Documentation
 ```
 
-##  Couverture des tests
+## 📊 Couverture des tests
 
 ### Test 1-3 : Création de compte
 -  Création avec données valides
@@ -134,7 +134,7 @@ tricentis-demo-tests/
 -  Tentative sans accepter les conditions
 -  Commande avec plusieurs produits
 
-##  Fonctions utilitaires
+## 🔧 Fonctions utilitaires
 
 Le fichier `utils/helpers.js` contient des fonctions réutilisables :
 
@@ -146,7 +146,7 @@ Le fichier `utils/helpers.js` contient des fonctions réutilisables :
 - `addProductToCart(page, categoryUrl, index)` - Ajout au panier
 - `getCartItemCount(page)` - Récupère le nombre d'articles
 
-##  Rapports de tests
+## 📈 Rapports de tests
 
 Après l'exécution, un rapport HTML est automatiquement généré :
 
@@ -160,7 +160,7 @@ Le rapport s'ouvre dans votre navigateur et affiche :
 - Vidéos des tests échoués
 - Traces d'exécution
 
-##  Configuration
+## ⚙️ Configuration
 
 ### Playwright Config
 
@@ -185,7 +185,7 @@ use: {
 }
 ```
 
-##  Bonnes pratiques implémentées
+## 🎯 Bonnes pratiques implémentées
 
 1. **Données dynamiques** : Chaque test génère des données uniques (email avec timestamp)
 2. **Isolation** : Chaque test est indépendant
@@ -195,7 +195,7 @@ use: {
 6. **Assertions robustes** : Vérifications multiples
 7. **Logs informatifs** : Messages console pour suivre l'exécution
 
-##  Débogage
+## 🐛 Débogage
 
 Pour déboguer un test spécifique :
 
@@ -209,14 +209,14 @@ Pour inspecter les sélecteurs :
 npx playwright codegen https://demowebshop.tricentis.com/
 ```
 
-##  Notes importantes
+## 📝 Notes importantes
 
 - **Données persistantes** : Chaque exécution crée de nouveaux comptes
 - **Pas de suppression** : Les comptes créés restent dans la base du site démo
 - **Exécution séquentielle** : Les tests s'exécutent un par un pour éviter les conflits
 - **Idempotence** : Les tests peuvent être relancés plusieurs fois
 
-##  Contribution
+## 🤝 Contribution
 
 Pour contribuer à ce projet :
 
@@ -226,15 +226,15 @@ Pour contribuer à ce projet :
 4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
 5. Créez une Pull Request
 
-##  Licence
+## 📄 Licence
 
 MIT License - Libre d'utilisation et de modification
 
-##  Auteur
+## 👤 Auteur
 
 **Alexandre** - Expert en test de logiciels et automatisation
 
-##  Liens utiles
+## 🔗 Liens utiles
 
 - [Documentation Playwright](https://playwright.dev/)
 - [Site de test](https://demowebshop.tricentis.com/)
