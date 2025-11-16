@@ -26,14 +26,62 @@ void main() async {
   // S'assurer que les bindings sont initialisés
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialiser les services
-  final authService = await AuthService.create();
-  final dbService = DatabaseService.instance;
+  try {
+    print('🚀 Initialisation de l\'application...');
 
-  runApp(DemoWebShopApp(
-    authService: authService,
-    dbService: dbService,
-  ));
+    // Initialiser les services
+    print('📦 Chargement AuthService...');
+    final authService = await AuthService.create();
+    print('✅ AuthService initialisé');
+
+    print('💾 Chargement DatabaseService...');
+    final dbService = DatabaseService.instance;
+    print('✅ DatabaseService initialisé');
+
+    print('🎨 Lancement de l\'interface...');
+    runApp(DemoWebShopApp(
+      authService: authService,
+      dbService: dbService,
+    ));
+  } catch (e, stackTrace) {
+    print('❌ Erreur lors de l\'initialisation: $e');
+    print('📋 Stack trace: $stackTrace');
+
+    // Afficher un écran d'erreur
+    runApp(MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                const SizedBox(height: 16),
+                const Text(
+                  'Erreur d\'initialisation',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$e',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Veuillez vérifier la console du navigateur (F12) pour plus de détails',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ));
+  }
 }
 
 /// Application principale Demo Web Shop
