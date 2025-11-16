@@ -28,9 +28,9 @@ RUN flutter config --enable-web
 WORKDIR /app
 
 # Copie des fichiers de configuration Flutter
-COPY pubspec.yaml pubspec.lock ./
+COPY pubspec.yaml ./
 
-# Installation des dépendances
+# Installation des dépendances (génère automatiquement pubspec.lock)
 RUN flutter pub get
 
 # Copie de tout le code source
