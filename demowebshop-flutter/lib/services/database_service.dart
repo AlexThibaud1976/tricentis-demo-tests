@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:path/path.dart';
 import '../models/product.dart';
 import '../models/cart_item.dart';
@@ -10,6 +10,7 @@ import '../models/address.dart';
 ///
 /// Gère la création, la mise à jour et les opérations CRUD
 /// sur toutes les tables de l'application
+/// Utilise sqflite_common_ffi_web pour la compatibilité web
 class DatabaseService {
   static final DatabaseService instance = DatabaseService._init();
   static Database? _database;
@@ -26,8 +27,11 @@ class DatabaseService {
 
   /// Initialise la base de données
   Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
+    // Initialiser le factory pour le web
+    databaseFactory = databaseFactoryFfiWeb;
+
+    // Pour le web, on utilise juste le nom du fichier
+    final path = filePath;
 
     return await openDatabase(
       path,

@@ -37,7 +37,8 @@ RUN flutter pub get
 COPY . .
 
 # Build de l'application web en mode release
-RUN flutter build web --release --web-renderer canvaskit
+# Utiliser html renderer pour plus de compatibilité
+RUN flutter build web --release --web-renderer html --verbose
 
 # Stage 2: Servir l'application avec nginx
 FROM nginx:alpine

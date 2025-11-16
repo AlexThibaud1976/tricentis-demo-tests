@@ -17,9 +17,10 @@ dependencies:
   go_router: ^13.0.0
 
   # Local Storage & Database
-  sqflite: ^2.3.0
+  sqflite_common_ffi_web: ^0.4.0+2
   shared_preferences: ^2.2.2
   path_provider: ^2.1.1
+  path: ^1.8.3
 
   # HTTP & API
   http: ^1.1.2
@@ -51,10 +52,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Assets
-  assets:
-    - assets/images/
-    - assets/fonts/
+  # Assets - Commenté car dossiers vides pour le moment
+  # Décommenter quand des assets seront ajoutés
+  # assets:
+  #   - assets/images/
+  #   - assets/fonts/
 
   # Fonts
   # fonts:
