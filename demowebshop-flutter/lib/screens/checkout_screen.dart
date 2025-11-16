@@ -12,6 +12,20 @@ import '../config/app_config.dart';
 ///
 /// Guide l'utilisateur à travers les étapes de commande :
 /// adresse de facturation, livraison, paiement, confirmation
+///
+/// Labels Semantics ajoutés pour les tests Playwright:
+/// - billing-country: Sélection du pays
+/// - billing-city: Champ ville
+/// - billing-address: Champ adresse
+/// - billing-zip: Champ code postal
+/// - billing-phone: Champ téléphone
+/// - shipping-ground: Radio livraison Ground
+/// - shipping-next-day: Radio livraison Next Day Air
+/// - shipping-2nd-day: Radio livraison 2nd Day Air
+/// - payment-cash: Radio paiement Cash On Delivery
+/// - payment-credit: Radio paiement Carte de crédit
+/// - continue-button: Bouton continuer
+/// - confirm-order-button: Bouton confirmer la commande
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
 
@@ -68,6 +82,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             setState(() => _currentStep--);
           }
         },
+        controlsBuilder: (context, details) {
+          // Personnaliser les boutons pour ajouter les labels Semantics
+          final isLastStep = details.stepIndex == 5;
+          return Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Row(
+              children: [
+                Semantics(
+                  label: isLastStep ? 'confirm-order-button' : 'continue-button',
+                  button: true,
+                  child: ElevatedButton(
+                    onPressed: details.onStepContinue,
+                    child: Text(isLastStep ? 'Confirmer' : 'Continuer'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (details.stepIndex > 0)
+                  TextButton(
+                    onPressed: details.onStepCancel,
+                    child: const Text('Retour'),
+                  ),
+              ],
+            ),
+          );
+        },
         steps: [
           // Étape 1: Adresse de facturation
           Step(
@@ -78,62 +117,81 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  DropdownButtonFormField<String>(
-                    value: _countryController.text,
-                    decoration: const InputDecoration(
-                      labelText: 'Pays *',
-                      border: OutlineInputBorder(),
+                  Semantics(
+                    label: 'billing-country',
+                    child: DropdownButtonFormField<String>(
+                      value: _countryController.text,
+                      decoration: const InputDecoration(
+                        labelText: 'Pays *',
+                        border: OutlineInputBorder(),
+                      ),
+                      items: AppConfig.countries.map((country) {
+                        return DropdownMenuItem(
+                          value: country,
+                          child: Text(country),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        _countryController.text = value!;
+                      },
                     ),
-                    items: AppConfig.countries.map((country) {
-                      return DropdownMenuItem(
-                        value: country,
-                        child: Text(country),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      _countryController.text = value!;
-                    },
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _cityController,
-                    decoration: const InputDecoration(
-                      labelText: 'Ville *',
-                      border: OutlineInputBorder(),
+                  Semantics(
+                    label: 'billing-city',
+                    textField: true,
+                    child: TextFormField(
+                      controller: _cityController,
+                      decoration: const InputDecoration(
+                        labelText: 'Ville *',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) =>
+                          value?.isEmpty ?? true ? 'Ville requise' : null,
                     ),
-                    validator: (value) =>
-                        value?.isEmpty ?? true ? 'Ville requise' : null,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _address1Controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Adresse *',
-                      border: OutlineInputBorder(),
+                  Semantics(
+                    label: 'billing-address',
+                    textField: true,
+                    child: TextFormField(
+                      controller: _address1Controller,
+                      decoration: const InputDecoration(
+                        labelText: 'Adresse *',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) =>
+                          value?.isEmpty ?? true ? 'Adresse requise' : null,
                     ),
-                    validator: (value) =>
-                        value?.isEmpty ?? true ? 'Adresse requise' : null,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _zipCodeController,
-                    decoration: const InputDecoration(
-                      labelText: 'Code postal *',
-                      border: OutlineInputBorder(),
+                  Semantics(
+                    label: 'billing-zip',
+                    textField: true,
+                    child: TextFormField(
+                      controller: _zipCodeController,
+                      decoration: const InputDecoration(
+                        labelText: 'Code postal *',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) =>
+                          value?.isEmpty ?? true ? 'Code postal requis' : null,
                     ),
-                    validator: (value) =>
-                        value?.isEmpty ?? true ? 'Code postal requis' : null,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _phoneController,
-                    decoration: const InputDecoration(
-                      labelText: 'Téléphone *',
-                      border: OutlineInputBorder(),
+                  Semantics(
+                    label: 'billing-phone',
+                    textField: true,
+                    child: TextFormField(
+                      controller: _phoneController,
+                      decoration: const InputDecoration(
+                        labelText: 'Téléphone *',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.phone,
+                      validator: (value) =>
+                          value?.isEmpty ?? true ? 'Téléphone requis' : null,
                     ),
-                    keyboardType: TextInputType.phone,
-                    validator: (value) =>
-                        value?.isEmpty ?? true ? 'Téléphone requis' : null,
                   ),
                 ],
               ),
@@ -162,29 +220,38 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             state: _currentStep > 2 ? StepState.complete : StepState.indexed,
             content: Column(
               children: [
-                RadioListTile<ShippingMethod>(
-                  title: const Text('Ground (Gratuit)'),
-                  value: ShippingMethod.ground,
-                  groupValue: _shippingMethod,
-                  onChanged: (value) {
-                    setState(() => _shippingMethod = value!);
-                  },
+                Semantics(
+                  label: 'shipping-ground',
+                  child: RadioListTile<ShippingMethod>(
+                    title: const Text('Ground (Gratuit)'),
+                    value: ShippingMethod.ground,
+                    groupValue: _shippingMethod,
+                    onChanged: (value) {
+                      setState(() => _shippingMethod = value!);
+                    },
+                  ),
                 ),
-                RadioListTile<ShippingMethod>(
-                  title: const Text('Next Day Air (15€)'),
-                  value: ShippingMethod.nextDayAir,
-                  groupValue: _shippingMethod,
-                  onChanged: (value) {
-                    setState(() => _shippingMethod = value!);
-                  },
+                Semantics(
+                  label: 'shipping-next-day',
+                  child: RadioListTile<ShippingMethod>(
+                    title: const Text('Next Day Air (15€)'),
+                    value: ShippingMethod.nextDayAir,
+                    groupValue: _shippingMethod,
+                    onChanged: (value) {
+                      setState(() => _shippingMethod = value!);
+                    },
+                  ),
                 ),
-                RadioListTile<ShippingMethod>(
-                  title: const Text('2nd Day Air (10€)'),
-                  value: ShippingMethod.secondDayAir,
-                  groupValue: _shippingMethod,
-                  onChanged: (value) {
-                    setState(() => _shippingMethod = value!);
-                  },
+                Semantics(
+                  label: 'shipping-2nd-day',
+                  child: RadioListTile<ShippingMethod>(
+                    title: const Text('2nd Day Air (10€)'),
+                    value: ShippingMethod.secondDayAir,
+                    groupValue: _shippingMethod,
+                    onChanged: (value) {
+                      setState(() => _shippingMethod = value!);
+                    },
+                  ),
                 ),
               ],
             ),
@@ -197,21 +264,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             state: _currentStep > 3 ? StepState.complete : StepState.indexed,
             content: Column(
               children: [
-                RadioListTile<PaymentMethod>(
-                  title: const Text('Cash On Delivery'),
-                  value: PaymentMethod.cashOnDelivery,
-                  groupValue: _paymentMethod,
-                  onChanged: (value) {
-                    setState(() => _paymentMethod = value!);
-                  },
+                Semantics(
+                  label: 'payment-cash',
+                  child: RadioListTile<PaymentMethod>(
+                    title: const Text('Cash On Delivery'),
+                    value: PaymentMethod.cashOnDelivery,
+                    groupValue: _paymentMethod,
+                    onChanged: (value) {
+                      setState(() => _paymentMethod = value!);
+                    },
+                  ),
                 ),
-                RadioListTile<PaymentMethod>(
-                  title: const Text('Carte de crédit'),
-                  value: PaymentMethod.creditCard,
-                  groupValue: _paymentMethod,
-                  onChanged: (value) {
-                    setState(() => _paymentMethod = value!);
-                  },
+                Semantics(
+                  label: 'payment-credit',
+                  child: RadioListTile<PaymentMethod>(
+                    title: const Text('Carte de crédit'),
+                    value: PaymentMethod.creditCard,
+                    groupValue: _paymentMethod,
+                    onChanged: (value) {
+                      setState(() => _paymentMethod = value!);
+                    },
+                  ),
                 ),
               ],
             ),

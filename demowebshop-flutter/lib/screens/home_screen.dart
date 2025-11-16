@@ -10,6 +10,15 @@ import '../config/app_config.dart';
 ///
 /// Affiche les catégories de produits, une barre de recherche
 /// et la liste des produits disponibles
+///
+/// Labels Semantics ajoutés pour les tests Playwright:
+/// - ico-login: Bouton de connexion
+/// - ico-logout: Lien de déconnexion
+/// - ico-cart: Bouton panier
+/// - ico-register: Bouton d'inscription
+/// - search-input: Champ de recherche
+/// - search-button: Bouton de recherche
+/// - user-email: Email de l'utilisateur connecté
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -48,12 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           // Bouton de connexion/compte
           if (!authProvider.isAuthenticated)
-            TextButton.icon(
-              onPressed: () => Navigator.pushNamed(context, '/login'),
-              icon: const Icon(Icons.login, color: Colors.white),
-              label: const Text(
-                'Log in',
-                style: TextStyle(color: Colors.white),
+            Semantics(
+              label: 'ico-login',
+              link: true,
+              child: TextButton.icon(
+                onPressed: () => Navigator.pushNamed(context, '/login'),
+                icon: const Icon(Icons.login, color: Colors.white),
+                label: const Text(
+                  'Log in',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             )
           else
@@ -62,20 +75,27 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context) => [
                 PopupMenuItem(
                   enabled: false,
-                  child: Text(
-                    authProvider.currentUser?.email ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  child: Semantics(
+                    label: 'user-email',
+                    child: Text(
+                      authProvider.currentUser?.email ?? '',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 const PopupMenuDivider(),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'logout',
-                  child: Row(
-                    children: [
-                      Icon(Icons.logout),
-                      SizedBox(width: 8),
-                      Text('Log out'),
-                    ],
+                  child: Semantics(
+                    label: 'ico-logout',
+                    link: true,
+                    child: const Row(
+                      children: [
+                        Icon(Icons.logout),
+                        SizedBox(width: 8),
+                        Text('Log out'),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -87,39 +107,43 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
           // Bouton panier avec compteur
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                onPressed: () => Navigator.pushNamed(context, '/cart'),
-                icon: const Icon(Icons.shopping_cart),
-              ),
-              if (cartProvider.itemCount > 0)
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 16,
-                      minHeight: 16,
-                    ),
-                    child: Text(
-                      '${cartProvider.itemCount}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+          Semantics(
+            label: 'ico-cart',
+            button: true,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                IconButton(
+                  onPressed: () => Navigator.pushNamed(context, '/cart'),
+                  icon: const Icon(Icons.shopping_cart),
+                ),
+                if (cartProvider.itemCount > 0)
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
                       ),
-                      textAlign: TextAlign.center,
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        '${cartProvider.itemCount}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(width: 8),
         ],
@@ -133,36 +157,44 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search...',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
+                  child: Semantics(
+                    label: 'search-input',
+                    textField: true,
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search...',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
+                      onSubmitted: (value) {
+                        if (value.length >= AppConfig.searchMinLength) {
+                          productProvider.searchProducts(value);
+                        }
+                      },
                     ),
-                    onSubmitted: (value) {
-                      if (value.length >= AppConfig.searchMinLength) {
-                        productProvider.searchProducts(value);
-                      }
-                    },
                   ),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    final query = _searchController.text;
-                    if (query.length >= AppConfig.searchMinLength) {
-                      productProvider.searchProducts(query);
-                    }
-                  },
-                  child: const Text('Search'),
+                Semantics(
+                  label: 'search-button',
+                  button: true,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final query = _searchController.text;
+                      if (query.length >= AppConfig.searchMinLength) {
+                        productProvider.searchProducts(query);
+                      }
+                    },
+                    child: const Text('Search'),
+                  ),
                 ),
               ],
             ),
@@ -199,10 +231,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: !authProvider.isAuthenticated
-          ? FloatingActionButton.extended(
-              onPressed: () => Navigator.pushNamed(context, '/register'),
-              icon: const Icon(Icons.person_add),
-              label: const Text('Register'),
+          ? Semantics(
+              label: 'ico-register',
+              button: true,
+              child: FloatingActionButton.extended(
+                onPressed: () => Navigator.pushNamed(context, '/register'),
+                icon: const Icon(Icons.person_add),
+                label: const Text('Register'),
+              ),
             )
           : null,
     );
