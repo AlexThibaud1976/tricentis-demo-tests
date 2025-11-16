@@ -2,39 +2,33 @@
 # Construit l'application pour le web et la sert via nginx
 
 # Stage 1: Build de l'application Flutter pour le web
-FROM debian:latest AS build-env
+FROM debian:bullseye-slim AS build-env
 
-# Installation des dépendances système
+# Installation des dépendances système nécessaires pour Flutter
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
     unzip \
-    libgconf-2-4 \
-    gdb \
-    libstdc++6 \
+    xz-utils \
+    zip \
     libglu1-mesa \
-    fonts-droid-fallback \
-    lib32stdc++6 \
-    python3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Installation de Flutter
-ARG FLUTTER_VERSION=3.19.0
+ARG FLUTTER_VERSION=3.19.6
 RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter -b ${FLUTTER_VERSION}
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
 
 # Préconfiguration de Flutter
 RUN flutter doctor -v
-RUN flutter channel stable
-RUN flutter upgrade
 RUN flutter config --enable-web
 
 # Répertoire de travail
 WORKDIR /app
 
 # Copie des fichiers de configuration Flutter
-COPY pubspec.* ./
+COPY pubspec.yaml pubspec.lock ./
 
 # Installation des dépendances
 RUN flutter pub get
@@ -43,12 +37,13 @@ RUN flutter pub get
 COPY . .
 
 # Build de l'application web en mode release
-RUN flutter build web --release
+RUN flutter build web --release --web-renderer canvaskit
 
 # Stage 2: Servir l'application avec nginx
 FROM nginx:alpine
 
 # Copie de la configuration nginx personnalisée
+RUN rm /etc/nginx/conf.d/default.conf
 COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
     listen 80;
@@ -72,13 +67,20 @@ server {
     gzip_vary on;
     gzip_min_length 10240;
     gzip_proxied expired no-cache no-store private auth;
-    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/javascript application/xml+rss;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/javascript application/xml+rss application/json;
     gzip_disable "MSIE [1-6]\.";
 
     # Cache pour les assets statiques
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg|wasm)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
+    }
+
+    # Headers CORS pour Flutter Web
+    location ~* \.(wasm|js)$ {
+        add_header Access-Control-Allow-Origin "*";
+        add_header Access-Control-Allow-Methods "GET, OPTIONS";
+        add_header Access-Control-Allow-Headers "Content-Type";
     }
 }
 EOF
@@ -86,8 +88,8 @@ EOF
 # Copie des fichiers buildés depuis le stage précédent
 COPY --from=build-env /app/build/web /usr/share/nginx/html
 
-# Volume pour la persistance des données
-VOLUME ["/var/lib/nginx/data"]
+# Volume pour la persistance des données (SQLite dans le navigateur via IndexedDB)
+VOLUME ["/usr/share/nginx/html/data"]
 
 # Exposition du port
 EXPOSE 80
