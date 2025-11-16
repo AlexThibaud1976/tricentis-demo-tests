@@ -65,11 +65,13 @@ Le fichier `playwright.config.flutter.js` à la racine contient la configuration
 
 ## État actuel
 
-✅ RegisterScreen - Labels ajoutés
-⏳ LoginScreen - À faire
-⏳ HomeScreen - À faire
-⏳ CartScreen - À faire
-⏳ CheckoutScreen - À faire
+✅ RegisterScreen - Labels ajoutés (9 labels) + Tests créés
+✅ LoginScreen - Labels ajoutés (5 labels)
+✅ HomeScreen - Labels ajoutés (7 labels)
+✅ CartScreen - Labels ajoutés (10 labels)
+✅ CheckoutScreen - Labels ajoutés (12 labels)
+
+**Total: 43 labels Semantics ajoutés - Tous les écrans sont prêts pour les tests ✅**
 
 ## Notes importantes
 

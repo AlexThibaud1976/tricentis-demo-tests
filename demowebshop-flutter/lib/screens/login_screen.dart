@@ -6,6 +6,13 @@ import '../providers/auth_provider.dart';
 ///
 /// Permet à un utilisateur existant de se connecter
 /// avec son email et son mot de passe
+///
+/// Labels Semantics ajoutés pour les tests Playwright:
+/// - Email: Champ email
+/// - Password: Champ mot de passe
+/// - login-button: Bouton de connexion
+/// - login-error-message: Message d'erreur
+/// - link-to-register: Lien vers inscription
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -48,12 +55,15 @@ class _LoginScreenState extends State<LoginScreen> {
       // Retourner à la page d'accueil
       Navigator.pushReplacementNamed(context, '/');
     } else {
-      // Afficher l'erreur
+      // Afficher l'erreur avec label pour les tests
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            authProvider.errorMessage ??
-                'Login was unsuccessful. Please correct the errors and try again.',
+          content: Semantics(
+            label: 'login-error-message',
+            child: Text(
+              authProvider.errorMessage ??
+                  'Login was unsuccessful. Please correct the errors and try again.',
+            ),
           ),
           backgroundColor: Colors.red,
         ),
@@ -92,68 +102,84 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 24),
 
-                      // Email
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email *',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.email),
+                      // Email avec label Semantics pour les tests
+                      Semantics(
+                        label: 'Email',
+                        textField: true,
+                        child: TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Email *',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          autofocus: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+                            return null;
+                          },
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        autofocus: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Email is required';
-                          }
-                          return null;
-                        },
                       ),
                       const SizedBox(height: 16),
 
-                      // Password
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Password *',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.lock),
+                      // Password avec label Semantics pour les tests
+                      Semantics(
+                        label: 'Password',
+                        textField: true,
+                        child: TextFormField(
+                          controller: _passwordController,
+                          decoration: const InputDecoration(
+                            labelText: 'Password *',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.lock),
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            }
+                            return null;
+                          },
+                          onFieldSubmitted: (_) => _handleLogin(),
                         ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password is required';
-                          }
-                          return null;
-                        },
-                        onFieldSubmitted: (_) => _handleLogin(),
                       ),
                       const SizedBox(height: 24),
 
-                      // Bouton Log in
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : _handleLogin,
-                          child: _isLoading
-                              ? const CircularProgressIndicator()
-                              : const Text(
-                                  'Log in',
-                                  style: TextStyle(fontSize: 16),
-                                ),
+                      // Bouton Log in avec label Semantics pour les tests
+                      Semantics(
+                        label: 'login-button',
+                        button: true,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? null : _handleLogin,
+                            child: _isLoading
+                                ? const CircularProgressIndicator()
+                                : const Text(
+                                    'Log in',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                          ),
                         ),
                       ),
 
                       const SizedBox(height: 16),
 
-                      // Lien vers Register
+                      // Lien vers Register avec label Semantics pour les tests
                       Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/register');
-                          },
-                          child: const Text('New user? Register here'),
+                        child: Semantics(
+                          label: 'link-to-register',
+                          link: true,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/register');
+                            },
+                            child: const Text('New user? Register here'),
+                          ),
                         ),
                       ),
                     ],

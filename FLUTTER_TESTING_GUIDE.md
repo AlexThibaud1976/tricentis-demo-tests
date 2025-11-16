@@ -200,20 +200,25 @@ if (await errorMessage.isVisible({ timeout: 2000 }).catch(() => false)) {
 
 | Screen | Labels ajoutés | Tests créés | Statut |
 |--------|---------------|-------------|--------|
-| RegisterScreen | ✅ 100% | ✅ Exemple complet | ✅ Prêt |
-| LoginScreen | ⏳ 0% | ❌ | 🔴 À faire |
-| HomeScreen | ⏳ 0% | ❌ | 🔴 À faire |
-| CartScreen | ⏳ 0% | ❌ | 🔴 À faire |
-| CheckoutScreen | ⏳ 0% | ❌ | 🔴 À faire |
+| RegisterScreen | ✅ 100% (9 labels) | ✅ Exemple complet | ✅ Prêt |
+| LoginScreen | ✅ 100% (5 labels) | ⏳ À créer | 🟡 Labels OK |
+| HomeScreen | ✅ 100% (7 labels) | ⏳ À créer | 🟡 Labels OK |
+| CartScreen | ✅ 100% (10 labels) | ⏳ À créer | 🟡 Labels OK |
+| CheckoutScreen | ✅ 100% (12 labels) | ⏳ À créer | 🟡 Labels OK |
+
+**Total : 43 labels Semantics ajoutés sur 5 screens ✅**
 
 ## 🎯 Prochaines Étapes
 
 1. ✅ RegisterScreen - Labels ajoutés et tests créés
-2. ⏳ Ajouter labels Semantics à LoginScreen
-3. ⏳ Ajouter labels Semantics à HomeScreen
-4. ⏳ Ajouter labels Semantics à CartScreen
-5. ⏳ Ajouter labels Semantics à CheckoutScreen
-6. ⏳ Créer les tests adaptés pour chaque screen
+2. ✅ LoginScreen - Labels Semantics ajoutés (5 labels)
+3. ✅ HomeScreen - Labels Semantics ajoutés (7 labels)
+4. ✅ CartScreen - Labels Semantics ajoutés (10 labels)
+5. ✅ CheckoutScreen - Labels Semantics ajoutés (12 labels)
+6. ⏳ Créer les tests Playwright adaptés pour LoginScreen
+7. ⏳ Créer les tests Playwright adaptés pour HomeScreen
+8. ⏳ Créer les tests Playwright adaptés pour CartScreen
+9. ⏳ Créer les tests Playwright adaptés pour CheckoutScreen
 
 ## 🔗 Ressources
 
