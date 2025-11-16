@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Application Demo Web Shop
+  demowebshop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: demowebshop-flutter
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      # Volume pour la persistance des données de l'application
+      - demowebshop-data:/var/lib/nginx/data
+      # Volume pour les logs nginx
+      - demowebshop-logs:/var/log/nginx
+    environment:
+      - TZ=Europe/Paris
+    networks:
+      - demowebshop-network
+    labels:
+      - "com.demowebshop.description=Demo Web Shop - E-commerce Flutter Application"
+      - "com.demowebshop.version=1.0.0"
+
+# Volumes nommés pour la persistance
+volumes:
+  # Volume principal pour les données de l'application
+  # Stocke les bases de données SQLite et les préférences utilisateur
+  demowebshop-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data
+    labels:
+      - "com.demowebshop.description=Application data volume"
+
+  # Volume pour les logs nginx
+  demowebshop-logs:
+    driver: local
+    labels:
+      - "com.demowebshop.description=Nginx logs volume"
+
+# Réseau pour isoler l'application
+networks:
+  demowebshop-network:
+    driver: bridge
+    labels:
+      - "com.demowebshop.description=Demo Web Shop network"
