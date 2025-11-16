@@ -28,16 +28,18 @@ class DatabaseService {
 
   /// Initialise la base de données
   Future<Database> _initDB(String filePath) async {
-    // Initialiser le factory pour le web
-    databaseFactory = databaseFactoryFfiWeb;
+    // Pour le web, utiliser directement le factory FFI Web
+    final factory = databaseFactoryFfiWeb;
 
     // Pour le web, on utilise juste le nom du fichier
     final path = filePath;
 
-    return await openDatabase(
+    return await factory.openDatabase(
       path,
-      version: 1,
-      onCreate: _createDB,
+      options: OpenDatabaseOptions(
+        version: 1,
+        onCreate: _createDB,
+      ),
     );
   }
 
